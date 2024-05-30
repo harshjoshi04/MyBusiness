@@ -4,12 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": " next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma": {
-      "generate": "prisma generate"
-    }
+    "prisma": "npx prisma generate"
   },
   "dependencies": {
     "@lucia-auth/adapter-prisma": "^4.0.1",
