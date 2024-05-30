@@ -1,47 +1,62 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import Chart from "chart.js";
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
-const LineBarChart: React.FC = () => {
-  const chartRef = useRef<HTMLCanvasElement>(null);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-  useEffect(() => {
-    if (chartRef.current) {
-      const ctx = chartRef.current.getContext("2d");
-      if (ctx) {
-        new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: ["January", "February", "March", "April", "May", "June"],
-            datasets: [
-              {
-                type: "line",
-                label: "Line Dataset",
-                borderColor: "#637587",
-                borderWidth: 2,
-                fill: false,
-                data: [45, 49, 60, 71, 46, 35],
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "top",
-              },
-              title: {
-                display: true,
-                text: "Chart.js Line Bar Chart",
-              },
-            },
-          },
-        });
-      }
-    }
-  }, []);
-
-  return <canvas ref={chartRef}></canvas>;
+const data = {
+  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  datasets: [
+    {
+      type: "line" as const,
+      label: "Order",
+      data: [28, 48, 40, 19, 86, 27, 90],
+      fill: false,
+      backgroundColor: "#22C55E",
+      borderColor: "#22C55E",
+    },
+  ],
 };
 
-export default LineBarChart;
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: false,
+    },
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+    },
+  },
+};
+
+const Chart: React.FC = () => {
+  return <Bar data={data as any} options={options} />;
+};
+
+export default Chart;
