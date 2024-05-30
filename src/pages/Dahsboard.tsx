@@ -21,11 +21,11 @@ const Dahsboard = () => {
       )}
       <p className="text-xl font-bold my-3 ">Overview</p>
       <div className="grid w-fit gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-        {[...Array(4).keys()].map((item, index) =>
+        {arr.map((item, index) =>
           isLoad ? (
             <Card key={index} />
           ) : (
-            <Skeleton className="w-52 h-28 rounded-2xl" />
+            <Skeleton className="w-52 h-28 rounded-2xl" key={index} />
           )
         )}
       </div>

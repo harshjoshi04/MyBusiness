@@ -115,7 +115,7 @@ const Category = () => {
               ) : (
                 Categorys?.map((item, index) => {
                   return (
-                    <TableRow>
+                    <TableRow key={item?.id}>
                       <TableCell className="font-medium">{index + 1}</TableCell>
                       <TableCell>{item?.name}</TableCell>
                       <TableCell>
