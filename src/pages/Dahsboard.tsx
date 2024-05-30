@@ -6,6 +6,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/context/useUser";
 import React from "react";
 
+const arr = [1, 2, 3, 4];
+
 const Dahsboard = () => {
   const { isLoad, userData } = useUser();
   return (
