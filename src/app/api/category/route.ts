@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
       where: { userId: id },
     });
     if (search)
-      findUser = findUser?.filter((el) =>
+      findUser = findUser?.filter((el: any) =>
         el?.name?.toLowerCase()?.includes(search?.toLowerCase())
       );
     return NextResponse.json({ status: "success", data: findUser.reverse() });
