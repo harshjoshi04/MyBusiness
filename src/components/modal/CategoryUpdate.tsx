@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
 import useCategoryUpdate from "@/context/useCategoryUpdate";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Category } from "@prisma/client";
-import useUser from "@/context/useUser";
+
 import { Spinner } from "@nextui-org/react";
 import axios from "axios";
 import API from "@/lib/apiRoute";
 import { useQueryClient } from "@tanstack/react-query";
+import { Category } from "@/lib/type";
 
 const CategoryUpdate = () => {
   const { register, reset, handleSubmit, setValue } = useForm<Category>();
