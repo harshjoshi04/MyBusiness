@@ -6,6 +6,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/context/useUser";
 import React from "react";
 
+const arr = [1,2,3,4]
+
 const Dahsboard = () => {
   const { isLoad, userData } = useUser();
   return (
@@ -19,8 +21,8 @@ const Dahsboard = () => {
       )}
       <p className="text-xl font-bold my-3 ">Overview</p>
       <div className="grid w-fit gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-        {[...Array(4).keys()].map((item) =>
-          isLoad ? <Card /> : <Skeleton className="w-52 h-28 rounded-2xl" />
+        {arr.map((item,index) =>
+          isLoad ? <Card key={index} /> : <Skeleton className="w-52 h-28 rounded-2xl"  />
         )}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 mt-16 w-10/12 gap-10">
