@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import NextAuthProvider from "@/provider/NextAuthProvider";
 import ModalProvider from "@/provider/ModalProvider";
 import ReactQueryProvider from "@/provider/ReactQueryProvider";
 
-const Font = Roboto({
+const Font = Poppins({
   subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
