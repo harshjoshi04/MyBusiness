@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<Response | any> {
   try {
     const { username, password } = await req.json();
     if (!username || !password)
