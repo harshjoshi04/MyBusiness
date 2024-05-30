@@ -18,8 +18,10 @@ export async function GET(req: NextRequest) {
     if (searchQuery)
       findData = findData.filter(
         (el) =>
-          el.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          el.category.name.toLowerCase().includes(searchQuery.toLowerCase())
+          el?.productName
+            ?.toLowerCase()
+            ?.includes(searchQuery?.toLowerCase()) ||
+          el?.category.name?.toLowerCase()?.includes(searchQuery?.toLowerCase())
       );
     return res.json({
       status: "success",

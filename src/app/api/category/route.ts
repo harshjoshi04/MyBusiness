@@ -15,10 +15,12 @@ export async function GET(req: NextRequest) {
         },
         { status: 404 }
       );
-    let findUser = await prisma.category.findMany({ where: { userId: id } });
+    let findUser = await prisma.category.findMany({
+      where: { userId: id },
+    });
     if (search)
       findUser = findUser?.filter((el) =>
-        el.name.toLowerCase().includes(search.toLowerCase())
+        el?.name?.toLowerCase()?.includes(search?.toLowerCase())
       );
     return NextResponse.json({ status: "success", data: findUser.reverse() });
   } catch (er) {
