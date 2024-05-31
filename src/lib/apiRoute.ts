@@ -1,4 +1,4 @@
-const MAIN = "http://localhost:3000";
+const MAIN = process.env.NEXT_URL!;
 const API = {
   USER: `${MAIN}/api/user`,
   CATEGORY: `${MAIN}/api/category`,
