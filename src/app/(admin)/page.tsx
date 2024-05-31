@@ -1,6 +1,5 @@
 "use client";
 import Card from "@/components/Card";
-import Chart from "@/components/Chart";
 import OrderTable from "@/components/OrderTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/context/useUser";
@@ -39,7 +38,7 @@ export default function Home() {
           <Skeleton className="w-full h-80 rounded-md" />
         )}
         <div>
-          {isLoad ? <Chart /> : <Skeleton className="w-full h-80 rounded-md" />}
+          {/* {isLoad ? <Chart /> : <Skeleton className="w-full h-80 rounded-md" />} */}
         </div>
       </div>
     </div>
