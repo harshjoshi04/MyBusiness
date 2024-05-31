@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from "react";
+import { MdDelete, MdEdit } from "react-icons/md";
 import {
   Table,
   TableBody,
@@ -8,75 +8,55 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useCategoryAdd from "@/context/useCategoryAdd";
-
-import { MdDelete, MdEdit } from "react-icons/md";
+import SearchBar from "@/components/SearchBar";
+import { Spinner } from "@nextui-org/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import API from "@/lib/apiRoute";
 import useUser from "@/context/useUser";
-import { Spinner } from "@nextui-org/react";
-import { Category as CategoryType } from "@/lib/type";
-import { useRouter, useSearchParams } from "next/navigation";
-import debounce from "lodash.debounce";
-import SearchBar from "@/components/SearchBar";
+import { Category } from "@/lib/type";
+import useCategoryAdd from "@/context/useCategoryAdd";
+import axios from "axios";
 import useCategoryUpdate from "@/context/useCategoryUpdate";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+import debounce from "lodash.debounce";
 
-const page = () => {
-  const searchParams = useSearchParams();
-  const { onOpen } = useCategoryAdd();
-  const queryClient = useQueryClient();
-  const { setItem } = useCategoryUpdate();
+export default function Home() {
   const { userData } = useUser();
+  const search = useSearchParams();
   const router = useRouter();
-
   const debounceChnageHandler = useCallback(
     debounce((value) => {
       router.replace(`/category?s=${value}`);
     }, 300),
     []
   );
-
-  const handleGetCategory = async (): Promise<CategoryType[]> => {
-    try {
-      let search = searchParams?.get("s");
+  const { onOpen } = useCategoryAdd();
+  const { setItem } = useCategoryUpdate();
+  const queryClient = useQueryClient();
+  const { data: Categorys, isLoading } = useQuery<Category[]>({
+    queryKey: ["categoryList", userData?.id, search?.get("s")],
+    queryFn: async () => {
+      let searchStr = search?.get("s") || "";
       let query = "";
-      if (search) {
-        query = `&s=${search}`;
-      }
+      if (searchStr != null) query = `&s=${searchStr}`;
       const { data } = await axios.get(
         `${API.CATEGORY}?id=${userData?.id}${query}`
       );
       return data.data;
-    } catch (er) {
-      throw new Error("Something Went Wrong !");
-    }
-  };
-  const {
-    data: Categorys,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["categoryList", userData?.id, searchParams?.get("s")],
-    queryFn: handleGetCategory,
-    initialData: [],
+    },
   });
 
-  const handleDelete = async (id: string | undefined) => {
-    try {
-      await axios.delete(`${API.CATEGORY}?id=${id}`);
-      queryClient?.invalidateQueries({
-        queryKey: ["categoryList", "productCategory"],
-      });
-    } catch (er) {}
+  const handleDelte = async (id: string) => {
+    const { data } = await axios.delete(`${API.CATEGORY}?id=${id}`);
+    queryClient.invalidateQueries(["categoryList"] as any);
   };
-
   return (
     <div className="mt-6">
       <p className="text-3xl font-bold mt-16">Categorys</p>
       <div className="flex justify-between items-center mr-6 mt-8">
         <SearchBar
-          defaultValue={`${searchParams?.get("s") || ""}`}
+          defaultValue={search?.get("s") || ""}
           debounceChnageHandler={debounceChnageHandler}
         />
         <button
@@ -95,10 +75,6 @@ const page = () => {
                 circle2: "border-b-green-500",
               }}
             />
-          </div>
-        ) : isError ? (
-          <div className="text-center text-red-500">
-            Failed to load categories.
           </div>
         ) : (
           <Table>
@@ -129,16 +105,13 @@ const page = () => {
                       <TableCell>
                         <div className="flex gap-2 items-center justify-end">
                           <button
-                            onClick={() => handleDelete(item?.id)}
                             className="flex justify-center items-center rounded-md w-6 h-7 bg-red-100 text-red-500"
+                            onClick={() => handleDelte(item?.id as string)}
                           >
                             <MdDelete size={20} />
                           </button>
-                          <button
-                            onClick={() => setItem(item)}
-                            className="flex justify-center items-center rounded-md w-6 h-7 bg-green-100 text-green-500"
-                          >
-                            <MdEdit size={20} />
+                          <button className="flex justify-center items-center rounded-md w-6 h-7 bg-green-100 text-green-500">
+                            <MdEdit size={20} onClick={() => setItem(item)} />
                           </button>
                         </div>
                       </TableCell>
@@ -152,6 +125,4 @@ const page = () => {
       </div>
     </div>
   );
-};
-
-export default page;
+}

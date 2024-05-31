@@ -1,7 +1,7 @@
 "use client";
-import SearchBar from "@/components/SearchBar";
-import React, { useCallback } from "react";
 
+import ProductList from "@/components/ProductList";
+import SearchBar from "@/components/SearchBar";
 import {
   Table,
   TableBody,
@@ -10,45 +10,39 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import ProductList from "@/components/ProductList";
 import useProductAdd from "@/context/useProductAdd";
-import { useQuery } from "@tanstack/react-query";
-import { Product as productType } from "@/lib/type";
-import axios from "axios";
-import API from "@/lib/apiRoute";
 import useUser from "@/context/useUser";
+import API from "@/lib/apiRoute";
+import { Product } from "@/lib/type";
 import { Spinner } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import debounce from "lodash.debounce";
 import { useRouter, useSearchParams } from "next/navigation";
-
-const page = () => {
-  const { onOpen } = useProductAdd();
-  const searchParams = useSearchParams();
+import { useCallback } from "react";
+export default function Home() {
   const { userData } = useUser();
+  const { onOpen } = useProductAdd();
   const router = useRouter();
+
   const handleSearch = useCallback(
     debounce((str) => {
-      router.replace(`/product?s=${str}`);
+      router.push(`/product?s=${str}`);
     }, 300),
     []
   );
-  const handleProduct = async (): Promise<productType[]> => {
-    try {
-      let queryString = searchParams?.get("s");
+  const search = useSearchParams();
+  const { data: products, isLoading } = useQuery<Product[]>({
+    queryKey: ["productList", userData?.id, search?.get("s")],
+    queryFn: async () => {
+      let searchStr = search?.get("s") || "";
       let query = "";
-      if (queryString) query = `&s=${queryString}`;
+      if (searchStr != null) query = `&s=${searchStr}`;
       const { data } = await axios.get(
         `${API.PRODUCT}?id=${userData?.id}${query}`
       );
-      return data.data;
-    } catch (er) {
-      throw new Error("Something Went Wrong !");
-    }
-  };
-  const { data: products, isLoading } = useQuery({
-    queryFn: handleProduct,
-    queryKey: ["productList", userData?.id, searchParams?.get("s")],
-    initialData: [],
+      return data?.data;
+    },
   });
   return (
     <div className="mt-16 mr-6">
@@ -57,8 +51,8 @@ const page = () => {
       </p>
       <div className="flex justify-between items-center mt-8">
         <SearchBar
-          defaultValue={`${searchParams?.get("s") || ""}`}
           debounceChnageHandler={handleSearch}
+          defaultValue={search?.get("s") || ""}
         />
         <button
           onClick={onOpen}
@@ -110,6 +104,4 @@ const page = () => {
       </div>
     </div>
   );
-};
-
-export default page;
+}
