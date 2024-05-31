@@ -1,4 +1,4 @@
-const MAIN = "http://localhost:3000";
+const MAIN = "https://mybusinesshop.vercel.app";
 const API = {
   USER: `${MAIN}/api/user`,
   CATEGORY: `${MAIN}/api/category`,
