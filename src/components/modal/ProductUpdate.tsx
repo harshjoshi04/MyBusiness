@@ -46,7 +46,7 @@ const ProductUpdate = () => {
       obj["categoryId"] =
         (data?.categoryId as string) || (item?.categoryId as string);
       await axios.put(API.PRODUCT, { ...obj });
-      queryClient.invalidateQueries(["productList"] as any);
+      queryClient.invalidateQueries({ queryKey: ["productList"] });
     } catch (er) {
     } finally {
       reset();

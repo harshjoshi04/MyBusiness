@@ -21,7 +21,7 @@ const ProductList: FC<ProductListType> = ({ item, No }) => {
   const handleDelete = async (id: string | undefined) => {
     try {
       await axios.delete(`${API.PRODUCT}?id=${id}`);
-      queryClient.invalidateQueries(["productList"] as any);
+      queryClient.invalidateQueries({ queryKey: ["productList"] });
     } catch (er) {}
   };
 

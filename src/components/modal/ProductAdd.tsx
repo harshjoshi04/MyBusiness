@@ -50,7 +50,7 @@ const ProductAdd = () => {
       setisDisable(true);
       let obj = { ...data, userId: userData?.id };
       await axios.post(API.PRODUCT, obj);
-      queryClient.invalidateQueries(["productList"] as any);
+      queryClient.invalidateQueries({ queryKey: ["productList"] });
       toast.success("Product Add Successfully !");
     } catch (er) {
       toast.error("Something Went Wrong !");

@@ -27,7 +27,9 @@ const CategoryAdd = () => {
       let obj = { name, id: userData?.id };
       await axios.post(API.CATEGORY, obj);
       toast.success("Category Add Successfully !");
-      queryClient.invalidateQueries(["categoryList", "productCategory"] as any);
+      queryClient.invalidateQueries({
+        queryKey: ["categoryList", "productCategory"],
+      });
       onClose();
     } catch (er) {
       toast.error("Something Went Wrong !");

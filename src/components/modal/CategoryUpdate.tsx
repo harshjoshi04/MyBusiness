@@ -20,10 +20,9 @@ const CategoryUpdate = () => {
       setisDisable(true);
       let obj = { id: item?.id, name: data.name };
       await axios.put(API.CATEGORY, obj);
-      queryClient?.invalidateQueries([
-        "categoryList",
-        "productCategory",
-      ] as any);
+      queryClient?.invalidateQueries({
+        queryKey: ["categoryList", "productCategory"],
+      });
       onClose();
     } catch (er) {
     } finally {

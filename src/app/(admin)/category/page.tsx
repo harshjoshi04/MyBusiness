@@ -1,3 +1,4 @@
+"use client";
 import Category from "@/pages/Category";
 import React from "react";
 

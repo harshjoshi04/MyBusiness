@@ -52,18 +52,22 @@ const Category = () => {
       throw new Error("Something Went Wrong !");
     }
   };
-  const { data: Categorys, isLoading } = useQuery({
+  const {
+    data: Categorys,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["categoryList", userData?.id, searchParams?.get("s")],
     queryFn: handleGetCategory,
+    initialData: [],
   });
 
   const handleDelete = async (id: string | undefined) => {
     try {
       await axios.delete(`${API.CATEGORY}?id=${id}`);
-      queryClient?.invalidateQueries([
-        "categoryList",
-        "productCategory",
-      ] as any);
+      queryClient?.invalidateQueries({
+        queryKey: ["categoryList", "productCategory"],
+      });
     } catch (er) {}
   };
 
@@ -91,6 +95,10 @@ const Category = () => {
                 circle2: "border-b-green-500",
               }}
             />
+          </div>
+        ) : isError ? (
+          <div className="text-center text-red-500">
+            Failed to load categories.
           </div>
         ) : (
           <Table>

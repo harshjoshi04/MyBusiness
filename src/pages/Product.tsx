@@ -48,6 +48,7 @@ const Product = () => {
   const { data: products, isLoading } = useQuery({
     queryFn: handleProduct,
     queryKey: ["productList", userData?.id, searchParams?.get("s")],
+    initialData: [],
   });
   return (
     <div className="mt-16 mr-6">

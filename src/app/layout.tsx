@@ -24,13 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={Font.className}>
-        <ReactQueryProvider>
-          <NextAuthProvider>
+        <NextAuthProvider>
+          <ReactQueryProvider>
             {children}
             <Toaster />
             <ModalProvider />
-          </NextAuthProvider>
-        </ReactQueryProvider>
+          </ReactQueryProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
