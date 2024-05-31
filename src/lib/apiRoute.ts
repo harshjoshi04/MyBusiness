@@ -1,9 +1,9 @@
-const MAIN = process.env.NEXT_URL!;
+const MAIN = "http://localhost:3000";
 const API = {
-  USER: `/api/user`,
-  CATEGORY: `/api/category`,
-  PRODUCT: `/api/product`,
-  STOCK: `/api/product/stock`,
+  USER: `${MAIN}/api/user`,
+  CATEGORY: `${MAIN}/api/category`,
+  PRODUCT: `${MAIN}/api/product`,
+  STOCK: `${MAIN}/api/product/stock`,
 };
 
 export default API;
