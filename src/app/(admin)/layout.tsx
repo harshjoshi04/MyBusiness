@@ -27,7 +27,9 @@ export default function RootLayout({
       ) : (
         <div className="flex w-full h-full">
           <Navbar />
-          <div className="flex-1 mx-8">{children}</div>
+          <div className=" border-l overflow-x-hidden  border-slate-300/50 flex-1 px-8">
+            {children}
+          </div>
         </div>
       )}
     </>

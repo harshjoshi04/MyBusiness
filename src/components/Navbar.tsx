@@ -50,7 +50,7 @@ const Navbar = () => {
   return (
     <div
       className={twMerge(
-        `flex min-w-[300px] h-full relative transition-all duration-200 ease-linear border-r border-slate-300/50`,
+        `flex min-w-[300px] h-full relative transition-all duration-200 ease-linear`,
         isMenu && "min-w-[80px] mx-4 "
       )}
     >
