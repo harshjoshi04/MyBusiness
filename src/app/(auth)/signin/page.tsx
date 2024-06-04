@@ -11,14 +11,9 @@ type LoginForm = {
   password: string;
 };
 
-const page = () => {
+const Home = () => {
   const [isDisable, setisDisable] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<LoginForm>();
+  const { register, handleSubmit, reset } = useForm<LoginForm>();
   const router = useRouter();
   const handleLogin: SubmitHandler<LoginForm> = (data) => {
     setisDisable(true);
@@ -90,4 +85,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Home;

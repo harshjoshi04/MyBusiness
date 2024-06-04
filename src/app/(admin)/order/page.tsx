@@ -1,6 +1,5 @@
 "use client";
 import React, { useCallback } from "react";
-import { IoSearchOutline } from "react-icons/io5";
 import {
   Table,
   TableBody,
@@ -21,11 +20,12 @@ import debounce from "lodash.debounce";
 import { useRouter, useSearchParams } from "next/navigation";
 import useOrderUpdate from "@/context/useOrderUpdate";
 
-const page = () => {
-  const SearchParamas = useSearchParams();
-  const router = useRouter();
+const Home = () => {
+  const { userData } = useUser();
   const queryClient = useQueryClient();
   const { setItem } = useOrderUpdate();
+  const SearchParamas = useSearchParams();
+  const router = useRouter();
   const handleDeleteOrder = async (id: string) => {
     await axios.delete(`${API.BILL}?id=${id}`);
     queryClient.invalidateQueries({ queryKey: ["orders"] });
@@ -37,7 +37,6 @@ const page = () => {
     }, 200),
     []
   );
-  const { userData } = useUser();
   const { data: Orders, isLoading } = useQuery<Order[]>({
     queryKey: ["orders", userData?.id, SearchParamas.get("s")],
     queryFn: async () => {
@@ -138,4 +137,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Home;
