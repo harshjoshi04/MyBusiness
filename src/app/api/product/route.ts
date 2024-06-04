@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id");
     const searchQuery = req.nextUrl.searchParams.get("s");
+    const CategoryName = req.nextUrl.searchParams.get("c");
     if (!id)
       return res.json(
         { status: "error", message: "Id Must Be Required !" },
@@ -23,6 +24,8 @@ export async function GET(req: NextRequest) {
             ?.includes(searchQuery?.toLowerCase()) ||
           el?.category.name?.toLowerCase()?.includes(searchQuery?.toLowerCase())
       );
+    if (CategoryName)
+      findData = findData.filter((el) => el.category.name == CategoryName);
     return res.json({
       status: "success",
       data: findData.reverse(),

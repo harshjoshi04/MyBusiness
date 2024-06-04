@@ -1,3 +1,4 @@
+import { chartDataType } from "@/lib/type";
 import React from "react";
 import {
   XAxis,
@@ -9,51 +10,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-interface SalesData {
-  day: string;
-  sales: number;
-  amt: number;
+interface ChartProp {
+  data: chartDataType[];
 }
 
-const salesData: SalesData[] = [
-  {
-    day: "Monday",
-    sales: 1200,
-    amt: 1200,
-  },
-  {
-    day: "Tuesday",
-    sales: 2100,
-    amt: 2100,
-  },
-  {
-    day: "Wednesday",
-    sales: 800,
-    amt: 800,
-  },
-  {
-    day: "Thursday",
-    sales: 1600,
-    amt: 1600,
-  },
-  {
-    day: "Friday",
-    sales: 2400,
-    amt: 2400,
-  },
-  {
-    day: "Saturday",
-    sales: 1900,
-    amt: 1900,
-  },
-  {
-    day: "Sunday",
-    sales: 900,
-    amt: 900,
-  },
-];
-
-const Chart: React.FC = () => {
+const Chart: React.FC<ChartProp> = ({ data }) => {
   return (
     <div style={{ width: "100%" }}>
       <h4 className=" font-bold text-lg py-6">Product Sales Over the Week</h4>
@@ -61,7 +22,7 @@ const Chart: React.FC = () => {
         <AreaChart
           width={400}
           height={300}
-          data={salesData}
+          data={data}
           margin={{
             top: 10,
             right: 30,
@@ -70,12 +31,12 @@ const Chart: React.FC = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" />
+          <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />
           <Area
             type="monotone"
-            dataKey="sales"
+            dataKey="profit"
             stroke="#82ca9d"
             fill="#82ca9d"
           />

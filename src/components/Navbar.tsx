@@ -6,15 +6,18 @@ import { BsBox } from "react-icons/bs";
 import { FiHome } from "react-icons/fi";
 import { SiNginxproxymanager } from "react-icons/si";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { HiOutlineClipboardList } from "react-icons/hi";
 import { ImTree } from "react-icons/im";
 import TooltipProvider from "./TooltipProvider";
 import useGetUser from "@/hook/useGetUser";
+import { CgLogOut } from "react-icons/cg";
+import { signOut } from "next-auth/react";
 const Navbar = () => {
   useGetUser();
   const [isMenu, setisMenu] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const [NavItem] = useState([
     {
       id: 1,
@@ -29,21 +32,21 @@ const Navbar = () => {
       Icon: LuShoppingCart,
     },
     {
-      id: 3,
-      href: "/product",
-      title: "Product",
-      Icon: BsBox,
-    },
-    {
       id: 4,
       href: "/category",
       title: "Category",
       Icon: ImTree,
     },
     {
+      id: 3,
+      href: "/product",
+      title: "Product",
+      Icon: BsBox,
+    },
+    {
       id: 5,
       href: "/bill",
-      title: "Bill",
+      title: "Create Bill",
       Icon: HiOutlineClipboardList,
     },
   ]);
@@ -54,9 +57,9 @@ const Navbar = () => {
         isMenu && "min-w-[80px] mx-4 "
       )}
     >
-      <div className="fixed  h-full flex flex-col items-center mx-5 ">
+      <div className="fixed  h-full flex flex-col  mx-5 ">
         <button
-          className="my-6 font-medium text-xl cursor-pointer flex items-center gap-3"
+          className="my-6 font-medium text-xl cursor-pointer flex items-center gap-3 mx-auto"
           onClick={() => setisMenu(!isMenu)}
         >
           <div className="text-green-500">
@@ -71,7 +74,7 @@ const Navbar = () => {
             MyBusiness
           </span>
         </button>
-        <ul className="space-y-2">
+        <ul className="space-y-2 flex-1">
           {NavItem?.map(({ id, href, title, Icon }) => (
             <li
               key={id}
@@ -97,6 +100,25 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
+        <button
+          onClick={() => {
+            signOut();
+            router.push("/signin");
+          }}
+          className="my-6 px-2 font-medium  cursor-pointer flex items-center gap-3 mx-auto "
+        >
+          <TooltipProvider title={"Logout"} isOpen={isMenu}>
+            <CgLogOut size={20} />
+          </TooltipProvider>
+          <span
+            className={twMerge(
+              "transition-all duration-200 ease-linear",
+              isMenu && "hidden"
+            )}
+          >
+            Logout
+          </span>
+        </button>
       </div>
     </div>
   );

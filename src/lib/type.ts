@@ -25,3 +25,32 @@ export interface Product {
   category?: Category;
   user?: User;
 }
+
+export interface Order {
+  id: string;
+  userId: string;
+  billNumber: number;
+  name: string;
+  address: string;
+  phone: string;
+  category: string;
+  productName: string;
+  quantity: number;
+  price: number;
+  FullAmount: number;
+  createdAt: Date;
+}
+
+export type chartDataType = {
+  date: string;
+  profit: number;
+};
+
+export interface DashboardType {
+  findCategory: number;
+  findProduct: number;
+  findOrder: number;
+  total: number;
+  LastOrder: Order[];
+  chartData: chartDataType[];
+}
